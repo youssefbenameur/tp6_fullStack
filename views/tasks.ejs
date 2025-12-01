@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Tâches</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/tasks">Tâches</a></li>
+            <li><a href="/about">À propos</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Mes Tâches</h1>
+        
+        <!-- Affichage du nombre total de tâches -->
+        <div class="task-stats">
+            <p>Nombre total de tâches : <strong><%= totalTasks %></strong></p>
+        </div>
+
+        <!-- Formulaire d'ajout de tâche -->
+        <form action="/tasks" method="POST" class="task-form">
+            <input type="text" name="title" placeholder="Nouvelle tâche..." required>
+            <button type="submit">Ajouter</button>
+        </form>
+
+        <!-- Liste des tâches -->
+        <ul class="task-list">
+            <% tasks.forEach(task => { %>
+                <li class="task-item <%= task.done ? 'done' : '' %>">
+                    <span class="task-title"><%= task.title %></span>
+                    <div class="task-actions">
+                        <% if (!task.done) { %>
+                            <form action="/tasks/<%= task.id %>/complete" method="POST" style="display: inline;">
+                                <button type="submit" class="btn-complete">✓</button>
+                            </form>
+                        <% } %>
+                        <form action="/tasks/<%= task.id %>/delete" method="POST" style="display: inline;">
+                            <button type="submit" class="btn-delete">✗</button>
+                        </form>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+
+        <a href="/" class="btn">Retour à l'accueil</a>
+    </main>
+</body>
+</html>
